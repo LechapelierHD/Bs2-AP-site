@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BS2 AP — Setup</title>
+    <meta name="description" content="BioShock 2 Remastered Archipelago client — download, install, and join the community.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600&family=Unbounded:wght@500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #e6f4f4;
+            --ink-soft: #8fadb0;
+            --foam: #e6f4f4;
+            --sea: #3ec7c9;
+            --sea-deep: #2aa8ab;
+            --matrix: #3ec7c9;
+            --matrix-dim: #1f7f82;
+            --line: rgba(62, 199, 201, 0.28);
+            --ease: cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            margin: 0;
+            color: var(--ink);
+            font-family: "DM Sans", sans-serif;
+            background: #0b1218;
+            line-height: 1.5;
+        }
+
+        a { color: inherit; }
+
+        .site-nav {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            backdrop-filter: blur(10px);
+            background: rgba(11, 18, 24, 0.92);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .site-nav-inner {
+            width: min(1000px, calc(100% - 2.5rem));
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+        }
+
+        .brand-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            margin-right: auto;
+            text-decoration: none;
+            font-family: "Unbounded", sans-serif;
+            font-weight: 700;
+            font-size: 0.78rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--sea-deep);
+        }
+
+        .brand-link img {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+            display: block;
+            border-radius: 6px;
+        }
+
+        .lang-tabs { display: inline-flex; gap: 0.15rem; }
+        .lang-tabs button {
+            font-family: "Unbounded", sans-serif;
+            font-weight: 700;
+            font-size: 0.72rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            border: none;
+            background: transparent;
+            color: var(--ink-soft);
+            padding: 0.55rem 0.7rem;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+        }
+        .lang-tabs button.active {
+            color: var(--sea-deep);
+            border-bottom-color: var(--matrix-dim);
+        }
+        .lang-tabs button:not(.active):hover { color: var(--sea-deep); }
+
+        .hero {
+            position: relative;
+            min-height: calc(100svh - 58px);
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+            color: var(--foam);
+            text-align: center;
+            isolation: isolate;
+        }
+
+        .hero-visual {
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background:
+                radial-gradient(ellipse 55% 45% at 50% 38%, rgba(62, 199, 201, 0.18), transparent 62%),
+                radial-gradient(ellipse 40% 30% at 18% 74%, rgba(18, 70, 78, 0.35), transparent 58%),
+                linear-gradient(165deg, #070d12 0%, #0b1218 42%, #102028 100%);
+        }
+
+        .mw-sky {
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(1.5px 1.5px at 12% 18%, rgba(230, 244, 244, 0.45), transparent),
+                radial-gradient(1.5px 1.5px at 28% 42%, rgba(62, 199, 201, 0.55), transparent),
+                radial-gradient(1px 1px at 63% 28%, rgba(62, 199, 201, 0.35), transparent),
+                radial-gradient(1px 1px at 78% 55%, rgba(230, 244, 244, 0.28), transparent),
+                radial-gradient(1.5px 1.5px at 88% 16%, rgba(62, 199, 201, 0.4), transparent);
+            opacity: 0.85;
+            animation: star-twinkle 6s ease-in-out infinite alternate;
+        }
+
+        .mw-map {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.85;
+        }
+
+        .mw-links path { animation: link-flow 8s linear infinite; }
+        .mw-links path:nth-child(2) { animation-duration: 11s; animation-direction: reverse; }
+        .mw-links path:nth-child(3) { animation-duration: 9s; }
+
+        .mw-portals circle {
+            transform-origin: center;
+            transform-box: fill-box;
+            animation: portal-pulse 5s var(--ease) infinite;
+        }
+        .mw-portals circle:nth-child(2) { animation-delay: 0.6s; }
+        .mw-portals circle:nth-child(3) { animation-delay: 1.2s; }
+        .mw-portals circle:nth-child(4) { animation-delay: 1.8s; }
+
+        .mw-nodes circle { animation: node-glow 3.2s ease-in-out infinite alternate; }
+        .mw-nodes circle:nth-child(odd) { animation-delay: 0.8s; }
+
+        .mw-islands ellipse {
+            transform-origin: center;
+            transform-box: fill-box;
+            animation: island-drift 14s var(--ease) infinite alternate;
+        }
+        .mw-islands ellipse:nth-child(2) { animation-duration: 18s; animation-delay: 1s; }
+        .mw-islands ellipse:nth-child(3) { animation-duration: 16s; animation-delay: 2s; }
+        .mw-islands ellipse:nth-child(4) { animation-duration: 20s; animation-delay: 0.5s; }
+
+        .hero-logo { animation: logo-float 5.5s var(--ease) infinite; }
+
+        @keyframes logo-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        @keyframes link-flow { to { stroke-dashoffset: -120; } }
+        @keyframes portal-pulse {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.55; }
+        }
+        @keyframes node-glow {
+            from { opacity: 0.45; }
+            to { opacity: 1; }
+        }
+        @keyframes island-drift {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+        @keyframes star-twinkle {
+            from { opacity: 0.55; }
+            to { opacity: 0.95; }
+        }
+
+        .hero-content {
+            width: min(920px, calc(100% - 2.5rem));
+            padding: clamp(2.5rem, 7vh, 4.5rem) 0 clamp(3.5rem, 10vh, 6rem);
+        }
+
+        .hero-logo {
+            display: block;
+            width: min(220px, 54vw);
+            height: auto;
+            margin: 0 auto 1.1rem;
+            filter: drop-shadow(0 18px 36px rgba(0, 0, 0, 0.45));
+            border-radius: 24px;
+        }
+
+        .hero-logo-missing { display: none; color: #f0b4b4; margin: 0 0 1rem; }
+
+        .brand {
+            margin: 0 0 0.85rem;
+            font-family: "Unbounded", sans-serif;
+            font-weight: 800;
+            font-size: clamp(2rem, 6.5vw, 3.8rem);
+            line-height: 0.95;
+            letter-spacing: -0.03em;
+        }
+
+        .brand span {
+            display: block;
+            margin-top: 0.45rem;
+            font-weight: 500;
+            font-size: 0.36em;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--matrix);
+        }
+
+        .tagline {
+            margin: 0 auto 1.1rem;
+            max-width: 40ch;
+            font-size: 1.05rem;
+            color: rgba(230, 244, 244, 0.78);
+        }
+
+        .visitors { display: flex; justify-content: center; margin: 0 0 1.35rem; }
+        .visitors img { height: 20px; width: auto; }
+
+        .cta { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.75rem; }
+        .cta a, a.btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.55rem;
+            min-height: 2.85rem;
+            padding: 0.7rem 1.15rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: transform 0.25s var(--ease), background 0.25s ease, border-color 0.25s ease;
+        }
+        .cta a:hover, a.btn:hover { transform: translateY(-2px); }
+
+        .cta .community, a.btn.community {
+            border: 1px solid rgba(127, 231, 228, 0.4);
+            background: rgba(10, 22, 28, 0.72);
+            color: #e8fffb;
+        }
+        .cta .community:hover, a.btn.community:hover {
+            background: rgba(18, 56, 64, 0.9);
+            border-color: rgba(127, 231, 228, 0.75);
+        }
+
+        a.btn.primary {
+            background: var(--matrix);
+            color: #071216;
+            border: none;
+        }
+        a.btn.primary:hover { background: #63dbdd; }
+        a.btn.ghost {
+            border: 1px solid rgba(62, 199, 201, 0.45);
+            background: transparent;
+            color: var(--foam);
+        }
+        a.btn.ghost:hover { border-color: var(--matrix-dim); }
+        a.btn.disabled { pointer-events: none; opacity: 0.45; transform: none; }
+
+        .discord-icon {
+            width: 18px;
+            height: 18px;
+            object-fit: cover;
+            border-radius: 3px;
+        }
+
+        main {
+            width: min(860px, calc(100% - 2.5rem));
+            margin: 0 auto;
+            padding: clamp(2.5rem, 6vw, 4rem) 0 3rem;
+        }
+
+        section { margin: 0 0 1rem; }
+        section h2 {
+            margin: 1.75rem 0 0.7rem;
+            font-family: "Unbounded", sans-serif;
+            font-weight: 700;
+            font-size: clamp(1.15rem, 2.4vw, 1.4rem);
+            letter-spacing: -0.02em;
+            color: var(--sea-deep);
+        }
+
+        .card {
+            background: #121a22;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 1.15rem 1.25rem;
+        }
+
+        .card p { margin: 0; color: var(--ink); }
+        .card .hint { margin-top: 0.45rem; color: var(--ink-soft); font-size: 0.95rem; }
+        .card code { color: var(--sea); font-size: 0.92em; }
+
+        .row-card {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+        .row-card .info { flex: 1; min-width: 220px; }
+        .row-card strong {
+            display: block;
+            font-family: "Unbounded", sans-serif;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+            margin-bottom: 0.25rem;
+            color: var(--sea-deep);
+        }
+
+        .meta {
+            margin-top: 2.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--line);
+            color: var(--ink-soft);
+            font-size: 0.88rem;
+        }
+        .meta code { color: var(--sea); }
+
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 24px;
+            transform: translateX(-50%) translateY(120%);
+            background: var(--sea-deep);
+            color: var(--foam);
+            padding: 12px 18px;
+            border-radius: 4px;
+            opacity: 0;
+            transition: transform 0.35s ease, opacity 0.35s ease;
+            z-index: 30;
+            pointer-events: none;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    </style>
+</head>
+<body>
+<nav class="site-nav" aria-label="Navigation">
+    <div class="site-nav-inner">
+        <a class="brand-link" href="./">
+            <img src="assets/logo.svg?v=1" width="28" height="28" alt="">
+            BS2 AP
+        </a>
+        <div class="lang-tabs" role="tablist" aria-label="Language">
+            <button type="button" role="tab" data-lang="fr" aria-selected="false">FR</button>
+            <button type="button" role="tab" data-lang="en" class="active" aria-selected="true">EN</button>
+        </div>
+    </div>
+</nav>
+
+<header class="hero">
+    <div class="hero-visual" aria-hidden="true">
+        <div class="mw-sky"></div>
+        <svg class="mw-map" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice">
+            <defs>
+                <linearGradient id="linkGrad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#3ec7c9" stop-opacity="0.15"/>
+                    <stop offset="50%" stop-color="#3ec7c9" stop-opacity="0.55"/>
+                    <stop offset="100%" stop-color="#3ec7c9" stop-opacity="0.15"/>
+                </linearGradient>
+            </defs>
+            <g class="mw-links" fill="none" stroke="url(#linkGrad)" stroke-width="1.5" stroke-dasharray="6 10">
+                <path d="M220 420 C340 280, 420 260, 560 320"/>
+                <path d="M560 320 C700 380, 780 240, 940 300"/>
+                <path d="M320 520 C480 560, 620 480, 760 520"/>
+            </g>
+            <g class="mw-islands" fill="none">
+                <ellipse cx="220" cy="420" rx="78" ry="34" fill="#121a22" stroke="#1f7f82" stroke-width="1.5" opacity="0.9"/>
+                <ellipse cx="560" cy="320" rx="96" ry="42" fill="#152028" stroke="#3ec7c9" stroke-width="1.8" opacity="0.95"/>
+                <ellipse cx="940" cy="300" rx="70" ry="30" fill="#121a22" stroke="#2aa8ab" stroke-width="1.5" opacity="0.9"/>
+                <ellipse cx="760" cy="520" rx="84" ry="36" fill="#152028" stroke="#1f7f82" stroke-width="1.5" opacity="0.9"/>
+            </g>
+            <g class="mw-portals" fill="none" stroke="#3ec7c9" stroke-width="2">
+                <circle cx="560" cy="320" r="58" opacity="0.35"/>
+                <circle cx="560" cy="320" r="72" opacity="0.18"/>
+                <circle cx="940" cy="300" r="42" opacity="0.28"/>
+                <circle cx="220" cy="420" r="48" opacity="0.22"/>
+            </g>
+            <g class="mw-nodes" fill="#3ec7c9">
+                <circle cx="220" cy="420" r="4"/>
+                <circle cx="560" cy="320" r="5"/>
+                <circle cx="940" cy="300" r="4"/>
+                <circle cx="760" cy="520" r="4"/>
+            </g>
+        </svg>
+    </div>
+    <div class="hero-content">
+        <img class="hero-logo" id="heroLogo" src="assets/logo.svg?v=1" alt="BioShock 2 AP" width="220" height="220">
+        <p class="hero-logo-missing" id="heroLogoMissing">Logo missing: place assets/logo.svg next to this page.</p>
+        <h1 class="brand">BioShock 2<br><span>Remastered AP</span></h1>
+        <p class="tagline" data-i18n="tagline"></p>
+        <div class="visitors">
+            <img src="https://visitor-badge.laobi.icu/badge?page_id=LechapelierHD.bs2ap&amp;left_text=visitors" alt="visitor badge">
+        </div>
+        <div class="cta">
+            <a class="community" id="discordTopBtn" href="https://lechapelierhd.github.io/synthetic-shores/" target="_blank" rel="noopener noreferrer">
+                <img class="discord-icon" src="assets/discord-logo.jpg?v=1" alt="" width="18" height="18">
+                <span data-i18n="btn_discord"></span>
+            </a>
+        </div>
+    </div>
+</header>
+
+<main>
+    <section>
+        <h2 data-i18n="h_download"></h2>
+        <div class="card row-card">
+            <div class="info">
+                <strong>BS2 AP Client</strong>
+                <p data-i18n="client_desc"></p>
+                <p class="hint" id="clientVersionHint"></p>
+            </div>
+            <a class="btn primary" id="clientDownloadBtn" href="#" target="_blank" rel="noopener noreferrer" data-i18n="btn_download"></a>
+        </div>
+    </section>
+
+    <section>
+        <h2 data-i18n="h_apworld"></h2>
+        <div class="card row-card">
+            <div class="info">
+                <strong>bioshock2.apworld</strong>
+                <p data-i18n="apworld_desc"></p>
+                <p class="hint" id="apworldVersionHint"></p>
+            </div>
+            <a class="btn ghost" id="apworldDownloadBtn" href="#" target="_blank" rel="noopener noreferrer" data-i18n="btn_download"></a>
+        </div>
+    </section>
+
+    <section>
+        <h2 data-i18n="h_patch"></h2>
+        <div class="card row-card">
+            <div class="info">
+                <strong>BS2 AP Patch</strong>
+                <p data-i18n="patch_desc"></p>
+                <p class="hint" id="patchVersionHint"></p>
+            </div>
+            <a class="btn ghost" id="patchDownloadBtn" href="#" target="_blank" rel="noopener noreferrer" data-i18n="btn_download"></a>
+        </div>
+    </section>
+
+    <section>
+        <h2 data-i18n="h_install"></h2>
+        <div class="card">
+            <p data-i18n-html="install_p"></p>
+            <p class="hint" data-i18n="install_hint"></p>
+        </div>
+    </section>
+
+    <section>
+        <h2 data-i18n="h_play"></h2>
+        <div class="card">
+            <p data-i18n-html="play_p"></p>
+            <p class="hint" data-i18n-html="play_hint"></p>
+        </div>
+    </section>
+
+    <section>
+        <h2 data-i18n="h_connect"></h2>
+        <div class="card">
+            <p data-i18n-html="connect_p"></p>
+            <p class="hint" data-i18n-html="connect_hint"></p>
+        </div>
+    </section>
+
+    <section>
+        <h2 data-i18n="h_discord"></h2>
+        <div class="card row-card">
+            <div class="info">
+                <strong data-i18n="discord_title"></strong>
+                <p data-i18n="discord_desc"></p>
+                <p class="hint" data-i18n="discord_hint"></p>
+            </div>
+            <a class="btn community" id="discordBtn" href="https://lechapelierhd.github.io/synthetic-shores/" target="_blank" rel="noopener noreferrer">
+                <img class="discord-icon" src="assets/discord-logo.jpg?v=1" alt="" width="18" height="18">
+                <span data-i18n="btn_discord"></span>
+            </a>
+        </div>
+    </section>
+
+    <section>
+        <h2 data-i18n="h_bug"></h2>
+        <div class="card">
+            <p data-i18n-html="bug_intro"></p>
+            <p class="hint" data-i18n-html="bug_hint"></p>
+        </div>
+    </section>
+
+    <p class="meta" data-i18n-html="meta"></p>
+</main>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function () {
+    const $ = (id) => document.getElementById(id);
+    const toastEl = $("toast");
+    let toastTimer;
+    let lang = localStorage.getItem("bs2ap_lang") || "en";
+
+    const CLIENT_DOWNLOAD_URL = "https://github.com/LechapelierHD/Bs2-AP-site/releases/download/v1.0.0/BS2_AP_Client_1.0.0.zip";
+    const CLIENT_VERSION = "1.0.0";
+    const APWORLD_DOWNLOAD_URL = "https://github.com/LechapelierHD/Bs2-AP-site/releases/download/v1.0.0/bioshock2.apworld";
+    const APWORLD_VERSION = "1.0.0";
+    const PATCH_DOWNLOAD_URL = "https://github.com/LechapelierHD/Bs2-AP-site/releases/download/v1.0.0/bs2ap_patch_1.0.0-alpha.zip";
+    const PATCH_VERSION = "1.0.0-alpha";
+    const DISCORD_URL = "https://lechapelierhd.github.io/synthetic-shores/";
+
+    const heroLogo = $("heroLogo");
+    const heroMissing = $("heroLogoMissing");
+    if (heroLogo && heroMissing) {
+        heroLogo.addEventListener("error", () => {
+            heroLogo.style.display = "none";
+            heroMissing.style.display = "block";
+        });
+    }
+
+    const I18N = {
+        fr: {
+            title: "BS2 AP — Configuration",
+            tagline: "Guide rapide pour le client BioShock 2 Archipelago.",
+            h_download: "Télécharger le client",
+            client_desc: "Client WPF + pont dinput8.dll + apworld. Installe le mod dans Build\\Final.",
+            hint_paste: "Client non configuré pour le moment.",
+            hint_ready: "Clique sur Télécharger pour obtenir le client.",
+            hint_version: "Version {v}",
+            btn_download: "Télécharger",
+            h_apworld: "Monde Archipelago",
+            apworld_desc: "Place bioshock2.apworld dans custom_worlds d’Archipelago, puis relance le Launcher.",
+            hint_apworld_paste: "Apworld non configuré.",
+            hint_apworld_ready: "Monde BioShock 2 Remastered prêt.",
+            h_patch: "Mise à jour (patch)",
+            patch_desc: "Install déjà en place : dépose le zip dans le dossier Patchs du client, ou utilise l’onglet Mises à jour.",
+            hint_patch_paste: "Patch non configuré.",
+            hint_patch_ready: "Patch Use + radar + give.",
+            h_install: "1. Installation",
+            install_p: "Installe <strong>BioShock 2 Remastered</strong> (Steam), télécharge le <strong>client</strong>, lance <code>BioShock 2 AP.exe</code>, puis clique <strong>Installer</strong> le mod.",
+            install_hint: "Le client copie dinput8.dll dans Build\\Final. Relance le jeu après l’install.",
+            h_play: "2. Checks, chapitres, goal",
+            play_p: "<strong>Check</strong> : approche un pickup AP et appuie sur <strong>Use (F/E)</strong> — le check part au serveur.<br><strong>Chapitres</strong> : ouverts par des billets (Adonis → … → Inner Persephone ; Minerva en option).<br><strong>Goal</strong> : recevoir <strong>Escape Rapture</strong> (placé à Inner Persephone).",
+            play_hint: "Le radar du client n’affiche que les checks AP encore ouverts.",
+            h_connect: "3. Connexion",
+            connect_p: "Génère le multiworld avec Archipelago (jeu <strong>BioShock 2 Remastered</strong>). Dans le client : adresse, nom du slot, mot de passe → <strong>Connecter</strong>.",
+            connect_hint: "Exemple : <code>archipelago.gg:38281</code>. Lance le jeu pour que le pont Bs2Live réponde.",
+            h_discord: "Communauté",
+            discord_title: "Synthorium",
+            discord_desc: "Annonces, aide, bugs et multiworld — tout se passe sur la communauté.",
+            discord_hint: "Les messages privés sont limités : utilise le serveur pour discuter.",
+            btn_discord: "Rejoindre la communauté",
+            h_bug: "4. Bug ou problème ?",
+            bug_intro: "En cas de bug, crash ou autre problème, postez sur la <strong>communauté</strong> avec une description claire (ce que vous avez fait + ce qui s’est passé).",
+            bug_hint: "Joignez si possible les logs du client et précisez si le grant / le check Use / le radar est en cause. Serveur : <a href=\"https://lechapelierhd.github.io/synthetic-shores/\" target=\"_blank\" rel=\"noopener noreferrer\">Synthetic Shores</a>.",
+            meta: "Dossier client : <code>BioShock 2 AP</code> · jeu AP : <code>BioShock 2 Remastered</code> · version <code>1.0.0</code>",
+        },
+        en: {
+            title: "BS2 AP — Setup",
+            tagline: "Quick guide for the BioShock 2 Archipelago client.",
+            h_download: "Download the client",
+            client_desc: "WPF client + dinput8.dll bridge + apworld. Installs the mod into Build\\Final.",
+            hint_paste: "Client not configured yet.",
+            hint_ready: "Click Download to get the client.",
+            hint_version: "Version {v}",
+            btn_download: "Download",
+            h_apworld: "Archipelago world",
+            apworld_desc: "Put bioshock2.apworld in Archipelago’s custom_worlds folder, then restart the Launcher.",
+            hint_apworld_paste: "Apworld not configured.",
+            hint_apworld_ready: "BioShock 2 Remastered world ready.",
+            h_patch: "Update (patch)",
+            patch_desc: "Already installed? Drop the zip into the client Patchs folder, or use the Updates tab.",
+            hint_patch_paste: "Patch not configured.",
+            hint_patch_ready: "Patch Use + radar + give.",
+            h_install: "1. Install",
+            install_p: "Install <strong>BioShock 2 Remastered</strong> (Steam), download the <strong>client</strong>, run <code>BioShock 2 AP.exe</code>, then click <strong>Install</strong> the mod.",
+            install_hint: "The client copies dinput8.dll into Build\\Final. Relaunch the game after install.",
+            h_play: "2. Checks, chapters, goal",
+            play_p: "<strong>Check</strong>: walk up to an AP pickup and press <strong>Use (F/E)</strong> — the location is sent to the server.<br><strong>Chapters</strong>: unlocked with tickets (Adonis → … → Inner Persephone; optional Minerva).<br><strong>Goal</strong>: receive <strong>Escape Rapture</strong> (placed in Inner Persephone).",
+            play_hint: "The client radar only shows still-open AP checks.",
+            h_connect: "3. Connect",
+            connect_p: "Generate the multiworld with Archipelago (game <strong>BioShock 2 Remastered</strong>). In the client: address, slot name, password → <strong>Connect</strong>.",
+            connect_hint: "Example: <code>archipelago.gg:38281</code>. Launch the game so the Bs2Live bridge answers.",
+            h_discord: "Community",
+            discord_title: "Synthorium",
+            discord_desc: "Announcements, help, bugs, and multiworld — everything happens in the community.",
+            discord_hint: "DMs are limited: use the server to talk.",
+            btn_discord: "Join the community",
+            h_bug: "4. Bug or problem?",
+            bug_intro: "If you hit a bug, crash, or other issue, post in the <strong>community</strong> with a clear description (what you did + what happened).",
+            bug_hint: "If possible, attach client logs and say whether grant / Use check / radar is involved. Server: <a href=\"https://lechapelierhd.github.io/synthetic-shores/\" target=\"_blank\" rel=\"noopener noreferrer\">Synthetic Shores</a>.",
+            meta: "Client folder: <code>BioShock 2 AP</code> · AP game: <code>BioShock 2 Remastered</code> · version <code>1.0.0</code>",
+        },
+    };
+
+    function t(key) {
+        return (I18N[lang] && I18N[lang][key]) || I18N.fr[key] || key;
+    }
+
+    function applyLang() {
+        document.documentElement.lang = lang;
+        document.title = t("title");
+        document.querySelectorAll("[data-i18n]").forEach((el) => {
+            el.textContent = t(el.getAttribute("data-i18n"));
+        });
+        document.querySelectorAll("[data-i18n-html]").forEach((el) => {
+            el.innerHTML = t(el.getAttribute("data-i18n-html"));
+        });
+        document.querySelectorAll(".lang-tabs button").forEach((btn) => {
+            const active = btn.getAttribute("data-lang") === lang;
+            btn.classList.toggle("active", active);
+            btn.setAttribute("aria-selected", active ? "true" : "false");
+        });
+        syncClientDownload();
+        syncApworldDownload();
+        syncPatchDownload();
+        ["discordBtn", "discordTopBtn"].forEach((id) => {
+            const a = $(id);
+            if (a) a.href = DISCORD_URL;
+        });
+        localStorage.setItem("bs2ap_lang", lang);
+    }
+
+    function toast(msg) {
+        toastEl.textContent = msg;
+        toastEl.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toastEl.classList.remove("show"), 2200);
+    }
+
+    function syncDownload(btnId, hintId, url, version, pasteKey, readyKey) {
+        const btn = $(btnId);
+        const hint = $(hintId);
+        if (!btn || !hint) return;
+        const cleanUrl = (url || "").trim();
+        const cleanVersion = (version || "").trim();
+        const valid = /^https?:\/\//i.test(cleanUrl);
+        btn.href = valid ? cleanUrl : "#";
+        btn.classList.toggle("disabled", !valid);
+        if (!valid) hint.textContent = t(pasteKey);
+        else if (cleanVersion) hint.textContent = t("hint_version").replace("{v}", cleanVersion);
+        else hint.textContent = t(readyKey);
+    }
+
+    function syncClientDownload() {
+        syncDownload("clientDownloadBtn", "clientVersionHint", CLIENT_DOWNLOAD_URL, CLIENT_VERSION, "hint_paste", "hint_ready");
+    }
+
+    function syncApworldDownload() {
+        syncDownload("apworldDownloadBtn", "apworldVersionHint", APWORLD_DOWNLOAD_URL, APWORLD_VERSION, "hint_apworld_paste", "hint_apworld_ready");
+    }
+
+    function syncPatchDownload() {
+        syncDownload("patchDownloadBtn", "patchVersionHint", PATCH_DOWNLOAD_URL, PATCH_VERSION, "hint_patch_paste", "hint_patch_ready");
+    }
+
+    document.querySelectorAll(".lang-tabs button").forEach((btn) => {
+        btn.addEventListener("click", () => {
+            lang = btn.getAttribute("data-lang");
+            applyLang();
+        });
+    });
+
+    applyLang();
+    void toast;
+})();
+</script>
+</body>
+</html>

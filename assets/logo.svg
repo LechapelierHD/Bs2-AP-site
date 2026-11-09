@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="BioShock 2 AP">
+  <defs>
+    <radialGradient id="g" cx="50%" cy="42%" r="55%">
+      <stop offset="0%" stop-color="#3ec7c9"/>
+      <stop offset="55%" stop-color="#1a6b7a"/>
+      <stop offset="100%" stop-color="#0b1c24"/>
+    </radialGradient>
+  </defs>
+  <rect width="256" height="256" rx="28" fill="#0b1218"/>
+  <circle cx="128" cy="118" r="78" fill="url(#g)" opacity="0.95"/>
+  <circle cx="128" cy="118" r="54" fill="none" stroke="#7fe7e4" stroke-width="4" opacity="0.55"/>
+  <path d="M78 150c18 28 82 28 100 0" fill="none" stroke="#9ff4f0" stroke-width="6" stroke-linecap="round" opacity="0.7"/>
+  <circle cx="128" cy="108" r="18" fill="#e8fffb"/>
+  <text x="128" y="214" text-anchor="middle" font-family="Georgia, serif" font-size="28" font-weight="700" fill="#7fe7e4">BS2</text>
+</svg>
